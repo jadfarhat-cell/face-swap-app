@@ -4,7 +4,29 @@ An AI-powered real-time face swapping application that uses deep learning to det
 
 ## Architecture
 
-![Architecture Diagram](https://mermaid.ink/img/Zmxvd2NoYXJ0IFRECiBBWyBJbnB1dCBTb3VyY2VcbkltYWdlIC8gV2ViY2FtIC8gVmlkZW9dIC0tPiBCW0ZhY2UgRGV0ZWN0b3JcblJldGluYUZhY2UgLyBNVENOTl0KIEIgLS0+IEN7RmFjZXMgRm91bmQ/fQogQyAtLSBObyAtLT4gWlsgTm8gRmFjZSBEZXRlY3RlZF0KIEMgLS0gWWVzIC0tPiBEW0xhbmRtYXJrIEV4dHJhY3RvclxuNjgtcG9pbnQgZmFjaWFsIGxhbmRtYXJrc10KIEQgLS0+IEVbRmFjZSBFbmNvZGVyXG5BcmNGYWNlIC8gSW5zaWdodEZhY2VdCiBFIC0tPiBGW0lkZW50aXR5IEVtYmVkZGluZ1xuNTEyLWRpbSB2ZWN0b3JdCiAKIEdbIFRhcmdldCBGYWNlIFNvdXJjZV0gLS0+IEhbRmFjZSBEZXRlY3Rvcl0KIEggLS0+IElbTGFuZG1hcmsgRXh0cmFjdG9yXQogSSAtLT4gSltGYWNlIEVuY29kZXJdCiBKIC0tPiBLW1RhcmdldCBFbWJlZGRpbmddCgogRiAtLT4gTFtGYWNlIFN3YXBwZXJcblNpbVN3YXAgLyBHSE9TVCBNb2RlbF0KIEsgLS0+IEwKIEwgLS0+IE1bRmFjZSBCbGVuZGVyXG5Qb2lzc29uIFNlYW1sZXNzIENsb25pbmddCiBNIC0tPiBOW1Bvc3QtUHJvY2Vzc29yXG5HRlBHQU4gLyBDb2RlRm9ybWVyXQogTiAtLT4gT1sgT3V0cHV0IEZyYW1lXQogTyAtLT4gUHtNb2RlP30KIFAgLS0gSW1hZ2UgLS0+IFFbU2F2ZSBJbWFnZV0KIFAgLS0gVmlkZW8gLS0+IFJbU3RyZWFtIE91dHB1dCAvIFNhdmUgVmlkZW9d)
+```mermaid
+flowchart TD
+ A[ Input Source\nImage / Webcam / Video] --> B[Face Detector\nRetinaFace / MTCNN]
+ B --> C{Faces Found?}
+ C -- No --> Z[ No Face Detected]
+ C -- Yes --> D[Landmark Extractor\n68-point facial landmarks]
+ D --> E[Face Encoder\nArcFace / InsightFace]
+ E --> F[Identity Embedding\n512-dim vector]
+ 
+ G[ Target Face Source] --> H[Face Detector]
+ H --> I[Landmark Extractor]
+ I --> J[Face Encoder]
+ J --> K[Target Embedding]
+
+ F --> L[Face Swapper\nSimSwap / GHOST Model]
+ K --> L
+ L --> M[Face Blender\nPoisson Seamless Cloning]
+ M --> N[Post-Processor\nGFPGAN / CodeFormer]
+ N --> O[ Output Frame]
+ O --> P{Mode?}
+ P -- Image --> Q[Save Image]
+ P -- Video --> R[Stream Output / Save Video]
+```
 
 ## Features
 
