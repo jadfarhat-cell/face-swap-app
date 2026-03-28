@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+
+  # ── FastAPI backend ──────────────────────────────────────────
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persist user data outside the container
+      - ./backend/uploads:/app/uploads
+      - ./backend/outputs:/app/outputs
+      # Drop inswapper_128.onnx here before starting
+      - ./backend/models:/app/models
+    environment:
+      # Add any extra origins as comma-separated values, e.g. your LAN IP
+      ALLOWED_ORIGINS: "http://localhost:3000,http://frontend:3000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s   # model loading takes a moment
+
+  # ── React dev server (frontend) ──────────────────────────────────────────
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount source for live hot-reload; node_modules stays inside the container
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - /app/node_modules
+    environment:
+      # Tells setupProxy.js which host to forward API requests to
+      REACT_APP_BACKEND_URL: "http://backend:8000"
+      # Required by CRA to accept connections from outside the container
+      DANGEROUSLY_DISABLE_HOST_CHECK: "true"
+    depends_on:
+      backend:
+        condition: service_healthy
+    stdin_open: true   # keep the CRA dev server process alive
