@@ -1,34 +1,34 @@
-# 🎭 Face Swap App
+# Face Swap App
 
 An AI-powered real-time face swapping application that uses deep learning to detect, extract, and seamlessly swap faces between images and video streams.
 
-## 🏗️ Architecture
+## Architecture
 
 ```mermaid
 flowchart TD
-    A[📷 Input Source\nImage / Webcam / Video] --> B[Face Detector\nRetinaFace / MTCNN]
-    B --> C{Faces Found?}
-    C -- No --> Z[⚠️ No Face Detected]
-    C -- Yes --> D[Landmark Extractor\n68-point facial landmarks]
-    D --> E[Face Encoder\nArcFace / InsightFace]
-    E --> F[Identity Embedding\n512-dim vector]
-    
-    G[🎯 Target Face Source] --> H[Face Detector]
-    H --> I[Landmark Extractor]
-    I --> J[Face Encoder]
-    J --> K[Target Embedding]
+ A[ Input Source\nImage / Webcam / Video] --> B[Face Detector\nRetinaFace / MTCNN]
+ B --> C{Faces Found?}
+ C -- No --> Z[ No Face Detected]
+ C -- Yes --> D[Landmark Extractor\n68-point facial landmarks]
+ D --> E[Face Encoder\nArcFace / InsightFace]
+ E --> F[Identity Embedding\n512-dim vector]
+ 
+ G[ Target Face Source] --> H[Face Detector]
+ H --> I[Landmark Extractor]
+ I --> J[Face Encoder]
+ J --> K[Target Embedding]
 
-    F --> L[Face Swapper\nSimSwap / GHOST Model]
-    K --> L
-    L --> M[Face Blender\nPoisson Seamless Cloning]
-    M --> N[Post-Processor\nGFPGAN / CodeFormer]
-    N --> O[🖼️ Output Frame]
-    O --> P{Mode?}
-    P -- Image --> Q[Save Image]
-    P -- Video --> R[Stream Output / Save Video]
+ F --> L[Face Swapper\nSimSwap / GHOST Model]
+ K --> L
+ L --> M[Face Blender\nPoisson Seamless Cloning]
+ M --> N[Post-Processor\nGFPGAN / CodeFormer]
+ N --> O[ Output Frame]
+ O --> P{Mode?}
+ P -- Image --> Q[Save Image]
+ P -- Video --> R[Stream Output / Save Video]
 ```
 
-##  Features
+## Features
 
 - Real-time face swapping via webcam
 - Batch processing for images and video files
@@ -37,7 +37,7 @@ flowchart TD
 - GPU-accelerated inference with CUDA
 - REST API for integration
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -50,7 +50,7 @@ flowchart TD
 | API Server | FastAPI + Uvicorn |
 | GPU Acceleration | CUDA 11.8+ / PyTorch |
 
-##  How to Run
+## How to Run
 
 ```bash
 # 1. Clone and install dependencies
@@ -77,24 +77,24 @@ docker build -t face-swap-app .
 docker run --gpus all -p 8000:8000 face-swap-app
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 face-swap-app/
-├── app.py              # Main application entry point
-├── api.py              # FastAPI REST API
-├── models/             # Pretrained model weights
+├── app.py # Main application entry point
+├── api.py # FastAPI REST API
+├── models/ # Pretrained model weights
 ├── modules/
-│   ├── detector.py     # Face detection
-│   ├── encoder.py      # Face encoding
-│   ├── swapper.py      # Core swap logic
-│   └── enhancer.py     # Post-processing
+│ ├── detector.py # Face detection
+│ ├── encoder.py # Face encoding
+│ ├── swapper.py # Core swap logic
+│ └── enhancer.py # Post-processing
 ├── scripts/
-│   └── download_models.py
+│ └── download_models.py
 ├── requirements.txt
 └── Dockerfile
 ```
 
-## ⚠️ Disclaimer
+## Disclaimer
 
 This tool is intended for creative and educational purposes only. Please use responsibly and ethically. Do not create deepfakes of real people without consent.
