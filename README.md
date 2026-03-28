@@ -28,7 +28,7 @@ flowchart TD
     P -- Video --> R[Stream Output / Save Video]
 ```
 
-## ✨ Features
+##  Features
 
 - Real-time face swapping via webcam
 - Batch processing for images and video files
@@ -50,7 +50,7 @@ flowchart TD
 | API Server | FastAPI + Uvicorn |
 | GPU Acceleration | CUDA 11.8+ / PyTorch |
 
-## 🚀 How to Run
+##  How to Run
 
 ```bash
 # 1. Clone and install dependencies
